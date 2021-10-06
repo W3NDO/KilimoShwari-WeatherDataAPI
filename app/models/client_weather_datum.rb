@@ -1,0 +1,2 @@
+class ClientWeatherDatum < ApplicationRecord
+end

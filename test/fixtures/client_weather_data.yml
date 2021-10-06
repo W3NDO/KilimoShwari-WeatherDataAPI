@@ -1,0 +1,15 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: MyString
+  geo_location: MyString
+  weather_data: MyText
+  start_date: 2021-10-06
+  end_date: 2021-10-06
+
+two:
+  name: MyString
+  geo_location: MyString
+  weather_data: MyText
+  start_date: 2021-10-06
+  end_date: 2021-10-06
