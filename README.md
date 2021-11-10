@@ -1,24 +1,11 @@
-# README
+# Kilimo Shwari
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+This is the backend server for my final year project, "Kilimo Shwari"
 
-Things you may want to cover:
+The project is a micro-insurance platform that will use smart contract hosted on the ethereum blockchain, a react native frontend and a RoR backend. 
 
-* Ruby version
+The RoR server will gather weather data and serve it to a function that will execute the smart contract when the specified threshholds and requirements are met.
 
-* System dependencies
+The react native app can be found [here](https://github.com/W3NDO/KilimoShwari-Mobi)
 
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+The Smart Contract can be found [here](https://github.com/W3NDO/KilimoShwari-SmartContract)
