@@ -316,11 +316,11 @@ module Devise
     class JWT < Base
       
       def valid?
-        request.headers['Authorizatin'].present?
+        request.headers['Authorization'].present?
       end
 
       def authenticate!
-        token = request.headers.fetch('Authorization', '').split(' ').last
+        token = request.headers.fetch('Authorization', '').split(':').last
         payload = JsonWebToken.decode(token)
         success! User.find(payload['sub'])
       rescue ::JWT::ExpiredSignature

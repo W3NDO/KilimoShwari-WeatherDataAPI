@@ -4,18 +4,9 @@ class RegistrationsController < Devise::RegistrationsController
     def create
         @user = User.new(sign_up_params)
         if @user.save
-            love_tank = LoveTank.new()
-            love_tank.user_id = @user.id
-            if love_tank.save
-                render json: {
-                    user: @user,
-                    loveTank: love_tank
-                }
-            else
-                render json: {errors: love_tank.errors}
-            end
+            render json: {user: @user }, status: :ok
         else
-            render json: {errors: @user.errors}
+            render json: {errors: @user.errors}, status: :unprocessable_entity
         end
     end
 
