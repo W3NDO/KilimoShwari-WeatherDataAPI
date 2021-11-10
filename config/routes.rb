@@ -4,6 +4,8 @@ Rails.application.routes.draw do
   namespace :api, defaults: {format: :json} do
     namespace :v1 do
       resource :client_weather_data
+      resource :policies
+      resource :contracts
 
       post :auth, to: 'authentication#create'
       get '/auth' => 'authentication#fetch'

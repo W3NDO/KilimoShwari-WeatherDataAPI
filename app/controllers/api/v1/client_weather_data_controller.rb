@@ -1,4 +1,4 @@
-class ClientWeatherDataController < ApplicationController
+class Api::V1::ClientWeatherDataController < ApiController
     include WeatherCallHelper
     
     def create

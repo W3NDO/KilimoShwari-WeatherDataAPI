@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_11_10_121426) do
+ActiveRecord::Schema.define(version: 2021_11_10_143505) do
 
   create_table "client_weather_data", force: :cascade do |t|
     t.string "name"
@@ -20,6 +20,29 @@ ActiveRecord::Schema.define(version: 2021_11_10_121426) do
     t.date "end_date"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "contracts", force: :cascade do |t|
+    t.string "address"
+    t.string "maize_variety"
+    t.date "start_date"
+    t.date "end_date"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.integer "policy_id", null: false
+    t.index ["policy_id"], name: "index_contracts_on_policy_id"
+  end
+
+  create_table "policies", force: :cascade do |t|
+    t.integer "client_id"
+    t.string "location"
+    t.string "maize_variety"
+    t.date "start_date"
+    t.date "end_date"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.integer "user_id", null: false
+    t.index ["user_id"], name: "index_policies_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -34,4 +57,6 @@ ActiveRecord::Schema.define(version: 2021_11_10_121426) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "contracts", "policies"
+  add_foreign_key "policies", "users"
 end
