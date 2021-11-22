@@ -73,6 +73,7 @@ GEM
       railties (>= 4.1.0)
       responders
       warden (~> 1.2.3)
+    digest-sha3 (1.1.0)
     erubi (1.10.0)
     ffi (1.15.4)
     globalid (0.5.2)
@@ -146,6 +147,7 @@ GEM
     responders (3.0.1)
       actionpack (>= 5.0)
       railties (>= 5.0)
+    rlp (0.7.3)
     spring (3.0.0)
     sprockets (4.0.2)
       concurrent-ruby (~> 1.0)
@@ -160,6 +162,9 @@ GEM
       concurrent-ruby (~> 1.0)
     warden (1.2.9)
       rack (>= 2.0.9)
+    web3-eth (0.2.48)
+      digest-sha3 (~> 1.1.0)
+      rlp (~> 0.7.3)
     websocket-driver (0.7.5)
       websocket-extensions (>= 0.1.0)
     websocket-extensions (0.1.5)
@@ -182,6 +187,7 @@ DEPENDENCIES
   spring
   sqlite3 (~> 1.4)
   tzinfo-data
+  web3-eth (~> 0.2.46)
 
 RUBY VERSION
    ruby 2.7.2p137

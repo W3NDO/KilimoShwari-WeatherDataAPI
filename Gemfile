@@ -45,3 +45,4 @@ gem 'jwt'
 
 gem 'pg', '~> 0.18.4', group: :production  #production db
 
+gem 'web3-eth', '~> 0.2.46' #to connect to the sample net blockchain and call the smart contract functions
