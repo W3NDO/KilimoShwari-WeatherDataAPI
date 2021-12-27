@@ -1,5 +1,6 @@
 class Api::V1::PoliciesController < ApiController
     include TimeConvertHelper  #helper functions to convert between epoch time used in smart contracts and regular time used in the db
+    include SmartContractFunctionHelper #for interacting with the smart contract functions
 
     def create
         policy = Policy.new(policy_params)
@@ -13,21 +14,18 @@ class Api::V1::PoliciesController < ApiController
 
             # ========================
             # For when the smart contracts are up and running
-            # contract = Contract.new({
-            #     maize_variety: policy_params[:maize_variety],
-            #     start_date: policy_params[:start_date],
-            #     end_date: policy_params[:end_date],
-            #     policy_id: policy.id
-            # }) 
-            # if contract.save
-            #     render json: {status: "SUCCESS", message: "new contract created", data: contract}, status: :ok
-            # else
-            #     render json: {status: "SUCCESS", message: "Failed to create policy", data: contract.errors}, status: :unprocessable_entity
-            # end
-            #initialize a new contract here and get contract address as well
-            # ===============================================
-
-            render json: {status: "SUCCESS", message: "new policy created", data: policy}, status: :ok
+            contract = Contract.new({
+                maize_variety: policy_params[:maize_variety],
+                start_date: policy_params[:start_date],
+                end_date: policy_params[:end_date],
+                policy_id: policy.id
+            }) 
+            contractPurchase = buyPolicy([current_user.id, policy.id, policy_params[:maize_variety], policy_params[:start_date].to_i, policy_params[:end_date].to_i])
+            if contract.save and contractPurchase
+                render json: {status: "SUCCESS", message: "new contract && policy  created", data: [contract, policy]}, status: :ok
+            else
+                render json: {status: "SUCCESS", message: "Failed to create policy", data: contract.errors}, status: :unprocessable_entity
+            end
         else
             render json: {status: "FAILURE", message: "failed to create policy", data: policy.errors}, status: :unprocessable_entity
         end
@@ -41,7 +39,8 @@ class Api::V1::PoliciesController < ApiController
     def show
         policy = Policy.find(params[:id])
         if policy
-            render json: {status: "SUCCESS", data: policy}, status: :ok
+            res = getPolicy(params[:id])
+            render json: {status: "SUCCESS", data: [policy, res]}, status: :ok
         else
             render json: {status: "Failure", message: "Could not find a policy with that ID"}, status: :not_found
         end
