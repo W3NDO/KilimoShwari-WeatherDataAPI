@@ -1,6 +1,8 @@
 require 'open-uri'
 require 'net/http'
 require 'httparty'
+require 'json'
+require 'uri'
 
 # make a call to the express server. 
 # BASE_URL = 'https://kilimo-shwari-express.herokuapp.com'
@@ -25,12 +27,16 @@ module SmartContractFunctionHelper
 
     def buyPolicy(data)
         #needs to be async
-        # puts data
-        res = HTTParty.post(BASE_URL + '/buyPolicy', {:body => {"content" => data}}) #find post syntax
-        res_code = res
-        puts "RES::::: #{res_code}"
-        
-        return res
+        data = {"content" => data}
+        puts "REQ DATA :: #{data}"
+    
+        res = HTTParty.post("#{BASE_URL}/buyPolicy", 
+            {
+                :body => data.to_json,
+                :headers => { 'Content-Type' => 'application/json', 'Accept' => 'application/json'}
+            })
+        # puts res.response.code, JSON.parse(res.response.body)["blockHash"]
+        return [ res.response.code, JSON.parse(res.response.body)["blockHash"] ]
     end
 
 end

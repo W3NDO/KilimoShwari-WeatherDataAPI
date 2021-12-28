@@ -21,8 +21,10 @@ class Api::V1::PoliciesController < ApiController
                 policy_id: policy.id
             }) 
             contractPurchase = buyPolicy([current_user.id, policy.id, policy_params[:maize_variety], policy_params[:start_date].to_i, policy_params[:end_date].to_i])
-            if contract.save and contractPurchase
-                render json: {status: "SUCCESS", message: "new contract && policy  created", data: [contract, policy]}, status: :ok
+            if contractPurchase[0] == "200"
+                contract.blockhash = contractPurchase[1]
+                contract.save
+                render json: {status: "SUCCESS", message: "new contract && policy created at #{contractPurchase[1]}", data: [contract, policy, contractPurchase[1]]}, status: :ok
             else
                 render json: {status: "SUCCESS", message: "Failed to create policy", data: contract.errors}, status: :unprocessable_entity
             end

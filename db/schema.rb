@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_11_10_152842) do
+ActiveRecord::Schema.define(version: 2021_12_27_234246) do
 
   create_table "client_weather_data", force: :cascade do |t|
     t.string "name"
@@ -30,6 +30,7 @@ ActiveRecord::Schema.define(version: 2021_11_10_152842) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.integer "policy_id", null: false
+    t.string "blockhash"
     t.index ["policy_id"], name: "index_contracts_on_policy_id"
   end
 
