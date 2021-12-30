@@ -34,8 +34,13 @@ class Api::V1::PoliciesController < ApiController
     end
 
     def index
+        Rails.logger.info(params.inspect)
         policies = Policy.where({user_id: current_user.id})
-        render json: {status: "SUCCESS", message: "Policies for #{current_user.email}", data: policies}, status: :ok
+        _contracts = {}
+        for policy in policies
+            _contracts[policy.id] = Contract.where(policy_id: policy.id)             
+        end
+        render json: {status: "SUCCESS", data: {"policies" => policies}}, status: :ok
     end
 
     def show
