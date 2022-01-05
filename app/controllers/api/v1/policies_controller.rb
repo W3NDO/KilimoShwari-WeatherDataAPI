@@ -8,8 +8,12 @@ class Api::V1::PoliciesController < ApiController
         policy.user_id = current_user.id
         
         # convert date to regular
-        policy.start_date = epoch_2_regular(policy_params[:start_date].to_i)
-        policy.end_date = epoch_2_regular(policy_params[:end_date].to_i)
+        if policy_params[:start_date] > policy_params[:end_date] #move this check to front end
+            render json: {status: "FAILURE", message: "Failed to create policy", data: "start date can not be after end date"}, status: :unprocessable_entity
+        else
+            policy.start_date = epoch_2_regular(policy_params[:start_date].to_i)
+            policy.end_date = epoch_2_regular(policy_params[:end_date].to_i)
+        end
 
         if policy.save #save the new policy
             contract = Contract.new({
@@ -25,7 +29,8 @@ class Api::V1::PoliciesController < ApiController
                 start_date: epoch_2_regular(policy_params[:start_date].to_i),
                 end_date: epoch_2_regular(policy_params[:end_date].to_i),
                 weather_data: nil,
-                policy_id: policy.id
+                policy_id: policy.id,
+                counter: (policy.end_date - policy.start_date).to_i
             })
             if cwd.save
                 WeatherAccountingJob.perform_later (cwd.id)

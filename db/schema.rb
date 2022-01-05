@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_01_05_055128) do
+ActiveRecord::Schema.define(version: 2022_01_05_114054) do
 
   create_table "client_weather_data", force: :cascade do |t|
     t.string "name"
@@ -22,6 +22,7 @@ ActiveRecord::Schema.define(version: 2022_01_05_055128) do
     t.datetime "updated_at", precision: 6, null: false
     t.integer "user_id", null: false
     t.integer "policy_id"
+    t.integer "counter"
     t.index ["user_id"], name: "index_client_weather_data_on_user_id"
   end
 
