@@ -47,3 +47,6 @@ gem 'pg', '~> 0.18.4'  #production db
 
 gem 'web3-eth', '~> 0.2.46' #to connect to the sample net blockchain and call the smart contract functions
 gem 'ethereum.rb'
+
+gem 'async', '~> 1.2' #for async http calls
+gem 'whenever', require: false

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_12_27_234246) do
+ActiveRecord::Schema.define(version: 2022_01_05_055128) do
 
   create_table "client_weather_data", force: :cascade do |t|
     t.string "name"
@@ -20,6 +20,9 @@ ActiveRecord::Schema.define(version: 2021_12_27_234246) do
     t.date "end_date"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.integer "user_id", null: false
+    t.integer "policy_id"
+    t.index ["user_id"], name: "index_client_weather_data_on_user_id"
   end
 
   create_table "contracts", force: :cascade do |t|
@@ -42,6 +45,7 @@ ActiveRecord::Schema.define(version: 2021_12_27_234246) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.integer "user_id", null: false
+    t.string "coordinates"
     t.index ["user_id"], name: "index_policies_on_user_id"
   end
 
@@ -57,6 +61,7 @@ ActiveRecord::Schema.define(version: 2021_12_27_234246) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "client_weather_data", "users"
   add_foreign_key "contracts", "policies"
   add_foreign_key "policies", "users"
 end

@@ -2,7 +2,6 @@ require 'open-uri'
 require 'net/http'
 
 module WeatherCallHelper
-    # include HTTParty
 
     @API_KEY = 'ce3a3d9423215ed4e8ca858aa94a7941'
     # @weather_api = "api.openweathermap.org/data/2.5/weather?lat=#{lat}&lon=#{lon}&appid=#{@API_KEY}" #open weather API
@@ -23,8 +22,11 @@ module WeatherCallHelper
             content[:Temp_Avg] = res["main"]["temp"]
             content[:Temp_Max] = res["main"]["temp_max"]
             content[:Temp_Min] = res["main"]["temp_min"]
-            
-            content[:Rain] = res["rain"]["1h"] if res.include?("rain")
+            if res.include?("rain")
+                content[:Rain] = res["rain"]["1h"]
+            else
+                content[:Rain] = 0.00
+            end
             return true, content, url
         else
             return false, res.code, url

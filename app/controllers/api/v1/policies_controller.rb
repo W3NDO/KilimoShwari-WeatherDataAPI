@@ -1,6 +1,7 @@
 class Api::V1::PoliciesController < ApiController
     include TimeConvertHelper  #helper functions to convert between epoch time used in smart contracts and regular time used in the db
     include SmartContractFunctionHelper #for interacting with the smart contract functions
+    include WeatherCallHelper #get the weather for the location => daily and weekly for the specified duration
 
     def create
         policy = Policy.new(policy_params)
@@ -11,22 +12,34 @@ class Api::V1::PoliciesController < ApiController
         policy.end_date = epoch_2_regular(policy_params[:end_date].to_i)
 
         if policy.save #save the new policy
-
-            # ========================
-            # For when the smart contracts are up and running
             contract = Contract.new({
                 maize_variety: policy_params[:maize_variety],
                 start_date: policy_params[:start_date],
                 end_date: policy_params[:end_date],
                 policy_id: policy.id
-            }) 
+            })
+            cwd = ClientWeatherDatum.new({
+                name: policy_params[:location],
+                user_id: current_user.id,
+                geo_location: policy_params[:coordinates],
+                start_date: epoch_2_regular(policy_params[:start_date].to_i),
+                end_date: epoch_2_regular(policy_params[:end_date].to_i),
+                weather_data: nil,
+                policy_id: policy.id
+            })
+            if cwd.save
+                WeatherAccountingJob.perform_later (cwd.id)
+                puts true
+            end
+            puts get_weather(policy_params[:coordinates].split(',')[0], policy_params[:coordinates].split(',')[1])
             contractPurchase = buyPolicy([current_user.id, policy.id, policy_params[:maize_variety], policy_params[:start_date].to_i, policy_params[:end_date].to_i])
-            if contractPurchase[0] == "200"
+            contractPurchase = contractPurchase.wait
+            if contractPurchase[0] == 200
                 contract.blockhash = contractPurchase[1]
                 contract.save
-                render json: {status: "SUCCESS", message: "new contract && policy created at #{contractPurchase[1]}", data: [contract, policy, contractPurchase[1]]}, status: :ok
+                render json: {status: "SUCCESS", message: "new contract && policy created at #{contractPurchase[1]}", data: [contract, policy, contractPurchase[1], cwd]}, status: :ok
             else
-                render json: {status: "SUCCESS", message: "Failed to create policy", data: contract.errors}, status: :unprocessable_entity
+                render json: {status: "FAILURE", message: "Failed to create policy", data: contract.errors}, status: :unprocessable_entity
             end
         else
             render json: {status: "FAILURE", message: "failed to create policy", data: policy.errors}, status: :unprocessable_entity
@@ -79,7 +92,7 @@ class Api::V1::PoliciesController < ApiController
 
     private
         def policy_params
-            params.require(:policy).permit(:location, :maize_variety, :start_date, :end_date)
+            params.require(:policy).permit(:location, :maize_variety, :coordinates, :start_date, :end_date)
         end
 
         def edit_policy_params
