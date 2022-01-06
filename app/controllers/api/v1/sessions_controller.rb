@@ -36,6 +36,7 @@ class Api::V1::SessionsController < Devise::SessionsController
                 is_success: false,
                 data: {}
             }, status: :unauthorized
+        end
     end
 
     private
