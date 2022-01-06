@@ -34,5 +34,5 @@ class Api::v1::ContractsController < ApiController
         def contract_params
             params.require(:contract).permit(:address, :maize_variety, :start_date, :end_date)
         end
-    end
+    
 end
