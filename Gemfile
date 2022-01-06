@@ -43,7 +43,7 @@ gem 'httparty', '~> 0.18.1'
 gem 'devise'
 gem 'jwt'
 
-gem 'pg', '~> 0.18.4'  #production db
+gem 'pg'  #production db
 
 gem 'web3-eth', '~> 0.2.46' #to connect to the sample net blockchain and call the smart contract functions
 gem 'ethereum.rb'
