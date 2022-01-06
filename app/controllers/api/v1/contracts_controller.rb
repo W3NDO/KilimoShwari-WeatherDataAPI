@@ -1,4 +1,4 @@
-class Api::v1::ContractsController < ApiController
+class Api::V1::ContractsController < ApiController
 
     def create
         user_id = current_user.id
