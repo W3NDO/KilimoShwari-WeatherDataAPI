@@ -6,8 +6,8 @@ require 'uri'
 require 'async'
 
 # make a call to the express server. 
-# BASE_URL = 'https://kilimo-shwari-express.herokuapp.com'
-BASE_URL = "http://localhost:3000"
+BASE_URL = 'https://kilimo-shwari-express.herokuapp.com'
+# BASE_URL = "http://localhost:3000"
 
 # Express endpoints
     # "/" => GET, return all policies
