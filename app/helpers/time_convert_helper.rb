@@ -2,7 +2,7 @@ require 'date'
 
 module TimeConvertHelper
     def epoch_2_regular(time) #convert epoch time to regular time
-        return Time.at(time)
+        return Time.at(time).to_i
     end
 
     def regular_2_epoch(time)
