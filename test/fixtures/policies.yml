@@ -1,13 +1,8 @@
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  location: MyString
-  maize_variety: MyString
+  location: Juja
+  maize_variety: Hybrid_Series_6
   start_date: 2021-11-10
   end_date: 2021-11-10
-
-two:
-  location: MyString
-  maize_variety: MyString
-  start_date: 2021-11-10
-  end_date: 2021-11-10
+  user_id: 1

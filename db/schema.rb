@@ -29,20 +29,20 @@ ActiveRecord::Schema.define(version: 2022_01_08_100232) do
   create_table "contracts", force: :cascade do |t|
     t.string "address"
     t.string "maize_variety"
-    t.date "start_date"
-    t.date "end_date"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.integer "policy_id", null: false
     t.string "blockhash"
+    t.integer "start_date"
+    t.integer "end_date"
     t.index ["policy_id"], name: "index_contracts_on_policy_id"
   end
 
   create_table "policies", force: :cascade do |t|
     t.string "location"
     t.string "maize_variety"
-    t.integer "start_date"
-    t.integer "end_date"
+    t.date "start_date"
+    t.date "end_date"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.integer "user_id", null: false
