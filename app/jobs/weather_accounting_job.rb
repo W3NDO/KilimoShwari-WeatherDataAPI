@@ -7,9 +7,9 @@ class WeatherAccountingJob < ApplicationJob
   def perform(id)
     if ClientWeatherDatum.find_by(id: id).counter != 0
       x = reschedule_job(id)
-      do_work(x)
+      # do_work(x)
     else
-      do_work(id)
+      # do_work(id)
       # call_validation(id) #call validation for the policy
     end
   end
