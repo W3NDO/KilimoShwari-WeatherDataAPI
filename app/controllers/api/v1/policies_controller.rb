@@ -11,8 +11,10 @@ class Api::V1::PoliciesController < ApiController
         if policy_params[:start_date] > policy_params[:end_date] #move this check to front end
             render json: {status: "FAILURE", message: "Failed to create policy", data: "start date can not be after end date"}, status: :unprocessable_entity
         else
-            policy.start_date = epoch_2_regular(policy_params[:start_date].to_i)
-            policy.end_date = epoch_2_regular(policy_params[:end_date].to_i)
+            # policy.start_date = epoch_2_regular(policy_params[:start_date].to_i)
+            # policy.end_date = epoch_2_regular(policy_params[:end_date].to_i)
+            policy.start_date = regular_2_epoch(policy_params[:start_date])
+            policy.end_date = regular_2_epoch(policy_params[:end_date])
         end
 
         if policy.save #save the new policy
