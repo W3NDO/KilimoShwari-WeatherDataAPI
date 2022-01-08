@@ -1,8 +1,10 @@
 class ChangeDateToIntType < ActiveRecord::Migration[6.1]
   def change
     change_table :policies do |t|
-      t.change :start_date, 'integer USING start_date::integer'
-      t.change :end_date, 'integer USING start_date::integer'
+      t.remove_column :start_date
+      t.remove_column :end_date
+      t.add_column, :start_date, :integer
+      t.add_column, :end_date, :integer
     end
   end
 end
