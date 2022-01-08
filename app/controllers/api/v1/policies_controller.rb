@@ -19,6 +19,7 @@ class Api::V1::PoliciesController < ApiController
         end
 
         if policy.save #save the new policy
+            puts "Policy Saved >>>>>"
             contract = Contract.new({
                 maize_variety: policy_params[:maize_variety],
                 start_date: policy_params[:start_date],
@@ -36,6 +37,7 @@ class Api::V1::PoliciesController < ApiController
                 counter: (policy.end_date - policy.start_date).to_i
             })
             if cwd.save
+                puts "Client Weather Datum saved >>>>"
                 WeatherAccountingJob.perform_later (cwd.id)
                 puts true
             end
@@ -45,6 +47,7 @@ class Api::V1::PoliciesController < ApiController
             if contractPurchase[0] == 200
                 contract.blockhash = contractPurchase[1]
                 contract.save
+                puts "Contract saved >>>>>"
                 render json: {status: "SUCCESS", message: "new contract && policy created at #{contractPurchase[1]}", data: [contract, policy, contractPurchase[1], cwd]}, status: :ok
             else
                 render json: {status: "FAILURE", message: "Failed to create policy", data: contract.errors}, status: :unprocessable_entity
