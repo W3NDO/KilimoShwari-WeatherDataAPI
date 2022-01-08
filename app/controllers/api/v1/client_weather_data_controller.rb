@@ -37,7 +37,8 @@ class Api::V1::ClientWeatherDataController < ApiController
 
     def show
         #get the weather data associated with a specific policy
-        policy_ids = Policy.find_by(user_id: current_user.id)
+        policy_ids = []
+        policy_ids << Policy.find_by(user_id: current_user.id)
         weather_data = []
         for policy in policy_ids
             weather_data << ClientWeatherDatum.find_by(policy_id: policy.id)
